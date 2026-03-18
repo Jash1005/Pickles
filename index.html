@@ -6,18 +6,19 @@
     <title>Pickle Admin | Order Sender</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
 
     <header class="header">
-        <div class="admin-tag"> ADMIN PANEL</div>
+        <div class="admin-tag">⚙ ADMIN PANEL</div>
         <h1>Home Made <span>Pickles</span></h1>
         <p class="header-sub">4 Nilgiri, Airport Road Branch</p>
     </header>
 
     <div class="container">
         <main>
-            <div class="sec-title" style="color:white">🥄 Select Items</div>
+            <div class="sec-title" style="color:white; margin-bottom: 15px;">🥄 Select Items</div>
             <div class="pickle-grid" id="pickleGrid"></div>
         </main>
 
@@ -27,11 +28,11 @@
                 <div class="box-body" id="orderList">
                     <p class="empty-msg">No items added yet.</p>
                 </div>
-                <div id="courierDisplay" style="display:none; padding: 10px 15px; font-size: 14px; border-top: 1px dashed #E8890B; justify-content: space-between;">
+                <div id="courierDisplay" style="display:none; padding: 0 15px; font-size: 14px; color: #C0432A; justify-content: space-between;">
                     <span>Courier Charges:</span>
-                    <strong id="courierAmtText" style="color: #C0432A;">₹0</strong>
+                    <strong id="courierAmtText">₹0</strong>
                 </div>
-                <div class="total-row">
+                <div class="total-row" style="display:flex; justify-content: space-between; padding: 15px; background: #eee; font-weight: bold;">
                     <span class="total-lbl">Total Amount</span>
                     <span class="total-val" id="totalAmt">₹0</span>
                 </div>
@@ -40,6 +41,9 @@
             <div class="box">
                 <div class="form-head"><div class="form-head-title">👤 Customer Details</div></div>
                 <div class="box-body">
+                    <label class="form-label">Order Date *</label>
+                    <input type="date" class="form-input" id="orderDate">
+
                     <input type="text" class="form-input" id="custName" placeholder="Customer Name *">
                     <input type="tel" class="form-input" id="custPhone" placeholder="WhatsApp Number *">
                     
