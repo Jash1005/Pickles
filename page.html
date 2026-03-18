@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickle Admin | Order Sender</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="admin-tag">⚙ ADMIN PANEL</div>
+        <h1>Home Made <span>Pickles</span></h1>
+        <p class="header-sub">4 Nilgiri, Airport Road Branch</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="sec-title">🥄 Select Items</div>
+            <div class="pickle-grid" id="pickleGrid"></div>
+        </main>
+
+        <aside class="right-col">
+            <div class="box">
+                <div class="box-head"><div class="box-head-title">🛒 Order Summary</div></div>
+                <div class="box-body" id="orderList">
+                    <p class="empty-msg">No items added yet.</p>
+                </div>
+                <div class="total-row">
+                    <span class="total-lbl">Total Amount</span>
+                    <span class="total-val" id="totalAmt">₹0</span>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="form-head"><div class="form-head-title">👤 Customer Details</div></div>
+                <div class="box-body">
+                    <input type="text" class="form-input" id="custName" placeholder="Customer Name *">
+                    <input type="tel" class="form-input" id="custPhone" placeholder="WhatsApp Number (10 digits) *">
+                    
+                    <label class="form-label">Order Type:</label>
+                    <select class="form-input" id="orderType" onchange="toggleAddressField()">
+                        <option value="delivery">Delivery</option>
+                        <option value="pickup">Pickup</option>
+                    </select>
+
+                    <div id="addressSection">
+                        <textarea class="form-ta" id="custAddress" placeholder="Customer Delivery Address *" rows="2"></textarea>
+                    </div>
+
+                    <button class="send-btn" id="sendBtn" onclick="sendToWhatsApp()" disabled>
+                        Confirm & Send WhatsApp
+                    </button>
+                    <button class="reset-btn" onclick="resetAll()">↺ New Order</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
