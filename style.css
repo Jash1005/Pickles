@@ -1,0 +1,127 @@
+:root {
+    --saffron: #E8890B;
+    --terracotta: #C0432A;
+    --cream: #FDF4E3;
+    --dark-brown: #2C1A0E;
+}
+
+body {
+    font-family: 'Crimson Pro', serif;
+    background: #1a0e05;
+    margin: 0;
+    color: var(--dark-brown);
+}
+
+.header {
+    background: linear-gradient(160deg, #1a0a02, #2C1A0E);
+    padding: 25px;
+    text-align: center;
+    color: var(--cream);
+    border-bottom: 3px solid var(--saffron);
+}
+
+.admin-tag {
+    display: inline-block;
+    font-family: 'Cinzel';
+    font-size: 10px;
+    letter-spacing: 2px;
+    border: 1px solid var(--saffron);
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    color: var(--saffron);
+}
+
+.header h1 { font-family: 'Cinzel Decorative'; font-size: 2.2rem; margin: 5px 0; }
+.header h1 span { color: var(--saffron); }
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+.pickle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.pickle-card {
+    background: var(--cream);
+    border-radius: 4px;
+    border: 1px solid rgba(212,160,23,0.2);
+    overflow: hidden;
+}
+
+.card-head { background: var(--dark-brown); color: white; padding: 10px 15px; font-family: 'Cinzel'; font-size: 13px; }
+
+.size-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.qty-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--saffron);
+    background: none;
+    color: var(--saffron);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.qty-btn:hover { background: var(--saffron); color: white; }
+
+.box { background: var(--cream); border-radius: 4px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.box-head, .form-head { background: var(--dark-brown); color: var(--saffron); padding: 10px 15px; font-family: 'Cinzel'; font-size: 12px; }
+.form-head { background: var(--terracotta); color: white; }
+
+.box-body { padding: 15px; }
+
+.form-label {
+    display: block;
+    font-family: 'Cinzel';
+    font-size: 11px;
+    margin: 10px 0 5px;
+}
+
+.form-input, .form-ta {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.send-btn {
+    width: 100%;
+    padding: 14px;
+    background: #25D366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: 'Cinzel';
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.send-btn:disabled { background: #999; cursor: not-allowed; }
+
+.reset-btn {
+    width: 100%;
+    background: none;
+    border: 1px solid #aaa;
+    color: #777;
+    padding: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
