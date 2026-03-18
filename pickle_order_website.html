@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Made Pickles – Order Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron: #E8890B;
+  --deep-saffron: #C96B00;
+  --terracotta: #C0432A;
+  --dark-terra: #8B2E1A;
+  --cream: #FDF4E3;
+  --warm-white: #FFFBF2;
+  --dark-brown: #2C1A0E;
+  --mid-brown: #6B3A1F;
+  --gold: #D4A017;
+  --light-gold: #F0C040;
+  --pale-gold: #FBF0CC;
+  --muted-green: #4A7A3A;
+  --shadow: rgba(44,26,14,0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', serif;
+  background: #1a0e05;
+  color: var(--dark-brown);
+  min-height: 100vh;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(160deg, #1a0a02 0%, #2C1A0E 40%, #3d2010 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 60px 20px 50px;
+  text-align: center;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(232,137,11,0.03) 60px, rgba(232,137,11,0.03) 61px);
+}
+.hero-border {
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(212,160,23,0.25);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--saffron);
+  border-top: 1px solid rgba(232,137,11,0.4);
+  border-bottom: 1px solid rgba(232,137,11,0.4);
+  padding: 5px 18px;
+  margin-bottom: 18px;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(30px, 6vw, 52px);
+  color: var(--cream);
+  line-height: 1.1;
+  position: relative;
+}
+.hero h1 span { color: var(--saffron); display: block; }
+.hero-divider {
+  display: flex; align-items: center; gap: 14px;
+  justify-content: center;
+  margin: 18px auto;
+  max-width: 300px;
+}
+.hero-divider hr { flex: 1; border: none; border-top: 1px solid rgba(212,160,23,0.4); }
+.hero-divider span { color: var(--saffron); font-size: 22px; }
+.hero-tagline {
+  font-style: italic;
+  font-size: 18px;
+  color: rgba(253,244,227,0.7);
+  position: relative;
+}
+.hero-badges {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 10px; margin-top: 28px; position: relative;
+}
+.hbadge {
+  background: rgba(232,137,11,0.12);
+  border: 1px solid rgba(232,137,11,0.3);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--cream);
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ===== STICKY CART BAR ===== */
+.cart-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: linear-gradient(90deg, var(--dark-brown), var(--mid-brown));
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-bottom: 2px solid var(--saffron);
+}
+.cart-info {
+  display: flex; align-items: center; gap: 14px;
+}
+.cart-count {
+  background: var(--saffron);
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.cart-text {
+  color: var(--cream);
+  font-size: 15px;
+}
+.cart-text strong { color: var(--light-gold); font-family: 'Cinzel', serif; }
+.cart-btn {
+  background: linear-gradient(135deg, var(--saffron), var(--deep-saffron));
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.cart-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(232,137,11,0.4); }
+.cart-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ===== MAIN LAYOUT ===== */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 16px 60px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 800px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { order: -1; }
+}
+
+/* ===== SECTION HEADINGS ===== */
+.sec-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: var(--cream);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.sec-heading::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, rgba(232,137,11,0.5), transparent);
+}
+
+/* ===== PICKLE CARDS ===== */
+.pickle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+}
+
+.pickle-card {
+  background: var(--cream);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.25s;
+  position: relative;
+}
+.pickle-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(44,26,14,0.25);
+  border-color: rgba(232,137,11,0.4);
+}
+.pickle-card.has-item {
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 2px rgba(232,137,11,0.2);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--dark-brown), var(--mid-brown));
+  padding: 14px 16px 10px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+}
+.pickle-emoji { font-size: 28px; }
+.pickle-names { flex: 1; margin-left: 10px; }
+.pickle-name-en {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--cream);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.pickle-name-gu {
+  font-size: 12px;
+  color: rgba(253,244,227,0.55);
+  font-style: italic;
+  font-weight: 300;
+}
+.added-badge {
+  background: var(--muted-green);
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.pickle-card.has-item .added-badge { opacity: 1; }
+
+.card-body { padding: 12px 16px; }
+
+.size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(212,160,23,0.1);
+}
+.size-row:last-child { border-bottom: none; }
+
+.size-label {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--mid-brown);
+  min-width: 40px;
+}
+.size-price {
+  font-size: 14px;
+  color: var(--terracotta);
+  font-weight: 600;
+  min-width: 50px;
+  text-align: center;
+}
+
+.qty-control {
+  display: flex; align-items: center; gap: 8px;
+}
+.qty-btn {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--saffron);
+  background: transparent;
+  color: var(--saffron);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  line-height: 1;
+  font-family: monospace;
+}
+.qty-btn:hover { background: var(--saffron); color: white; }
+.qty-num {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  min-width: 20px;
+  text-align: center;
+  color: var(--dark-brown);
+  font-weight: 700;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: sticky;
+  top: 72px;
+}
+
+.order-box {
+  background: var(--cream);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.order-box-header {
+  background: linear-gradient(135deg, var(--dark-brown), var(--mid-brown));
+  padding: 16px 20px;
+}
+.order-box-title {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--saffron);
+  text-transform: uppercase;
+}
+.order-items-list {
+  padding: 14px 18px;
+  min-height: 80px;
+}
+.empty-cart-msg {
+  text-align: center;
+  color: rgba(107,58,31,0.45);
+  font-style: italic;
+  font-size: 14px;
+  padding: 20px 0;
+}
+.order-line {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(212,160,23,0.1);
+  font-size: 14px;
+  gap: 8px;
+  animation: slideIn 0.2s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.order-line-name { color: var(--dark-brown); font-size: 13px; flex: 1; line-height: 1.3; }
+.order-line-size { color: var(--mid-brown); font-size: 11px; font-style: italic; }
+.order-line-price { color: var(--terracotta); font-weight: 600; font-family: 'Cinzel', serif; font-size: 13px; white-space: nowrap; }
+
+.order-total {
+  padding: 12px 18px;
+  background: var(--pale-gold);
+  border-top: 1.5px solid rgba(212,160,23,0.3);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.total-label { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--mid-brown); }
+.total-amount { font-family: 'Cinzel', serif; font-size: 20px; color: var(--terracotta); font-weight: 700; }
+
+/* ===== FORM ===== */
+.form-section {
+  background: var(--cream);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+.form-header {
+  background: linear-gradient(135deg, var(--terracotta), var(--dark-terra));
+  padding: 14px 20px;
+}
+.form-header-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--cream);
+}
+.form-body { padding: 18px; }
+
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--mid-brown);
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.form-input, .form-textarea {
+  width: 100%;
+  border: 1.5px solid rgba(212,160,23,0.25);
+  background: var(--warm-white);
+  padding: 10px 14px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  color: var(--dark-brown);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--saffron);
+  background: #fffdf5;
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--saffron), var(--deep-saffron));
+  color: white;
+  border: none;
+  padding: 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,137,11,0.4); }
+.submit-btn:active { transform: translateY(0); }
+
+/* ===== ORDER SUMMARY OVERLAY ===== */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(26,14,5,0.9);
+  z-index: 999;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  overflow-y: auto;
+}
+.overlay.show { display: flex; }
+
+.summary-box {
+  background: var(--cream);
+  max-width: 560px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(212,160,23,0.3);
+  margin: auto;
+  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.summary-header {
+  background: linear-gradient(135deg, #1a0a02, var(--dark-brown));
+  padding: 28px 30px;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid var(--saffron);
+}
+.summary-check {
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, var(--muted-green), #2a5a1a);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 14px;
+  box-shadow: 0 4px 16px rgba(74,122,58,0.4);
+}
+.summary-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.summary-subtitle {
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(253,244,227,0.6);
+}
+
+.summary-body { padding: 24px 28px; }
+
+.summary-section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--mid-brown);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  margin-top: 18px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(212,160,23,0.2);
+}
+.summary-section-label:first-child { margin-top: 0; }
+
+.summary-customer-info {
+  background: var(--pale-gold);
+  border-radius: 3px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--dark-brown);
+}
+.summary-customer-info strong { color: var(--terracotta); font-weight: 600; }
+
+.summary-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.summary-items-table th {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--saffron);
+  background: var(--dark-brown);
+  padding: 9px 12px;
+  text-align: left;
+}
+.summary-items-table th:last-child { text-align: right; }
+.summary-items-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(212,160,23,0.1);
+}
+.summary-items-table td:last-child { text-align: right; color: var(--terracotta); font-weight: 600; }
+.summary-items-table tr:nth-child(even) td { background: rgba(232,137,11,0.03); }
+
+.summary-total-row {
+  background: var(--pale-gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-top: 4px;
+  border-radius: 2px;
+}
+.summary-total-label { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; color: var(--mid-brown); }
+.summary-total-val { font-family: 'Cinzel', serif; font-size: 22px; color: var(--terracotta); font-weight: 700; }
+
+.summary-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.wa-btn {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  border: none;
+  padding: 15px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.wa-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.3); }
+.close-btn {
+  background: transparent;
+  color: var(--mid-brown);
+  border: 1.5px solid rgba(212,160,23,0.35);
+  padding: 15px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+.close-btn:hover { background: var(--pale-gold); border-color: var(--gold); }
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: linear-gradient(135deg, #1a0a02, var(--dark-brown));
+  padding: 30px 20px;
+  text-align: center;
+  border-top: 2px solid rgba(232,137,11,0.3);
+  margin-top: 20px;
+}
+.footer-brand {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 18px;
+  color: var(--saffron);
+  margin-bottom: 6px;
+}
+.footer-tagline {
+  font-style: italic;
+  color: rgba(253,244,227,0.5);
+  font-size: 14px;
+}
+.footer-contact {
+  margin-top: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--cream);
+  opacity: 0.7;
+}
+
+/* ===== VALIDATION ===== */
+.error { border-color: var(--terracotta) !important; }
+.error-msg { color: var(--terracotta); font-size: 12px; margin-top: 4px; font-style: italic; }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 30px; right: 20px;
+  background: var(--muted-green);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 200;
+  display: flex; align-items: center; gap: 8px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-border"></div>
+  <div class="hero-tag">✦ Authentic Gujarati Homemade ✦</div>
+  <h1>Home Made<span>Pickles</span></h1>
+  <div class="hero-divider"><hr><span>🥭</span><hr></div>
+  <p class="hero-tagline">"Taste of Tradition in Every Jar"</p>
+  <div class="hero-badges">
+    <span class="hbadge">🌿 No Preservatives</span>
+    <span class="hbadge">🏠 100% Homemade</span>
+    <span class="hbadge">🫙 Hygienic Packaging</span>
+    <span class="hbadge">🌶️ Traditional Recipe</span>
+  </div>
+</div>
+
+<!-- STICKY CART BAR -->
+<div class="cart-bar">
+  <div class="cart-info">
+    <div class="cart-count" id="cartCount">0</div>
+    <div class="cart-text">
+      Items selected &nbsp;|&nbsp; Total: <strong id="cartTotal">₹0</strong>
+    </div>
+  </div>
+  <button class="cart-btn" id="reviewOrderBtn" disabled onclick="scrollToForm()">
+    🛒 Place Order
+  </button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: PICKLE MENU -->
+  <div class="left-col">
+    <div class="sec-heading" style="color:var(--light-gold)">🥄 &nbsp; Choose Your Pickles</div>
+    <div class="pickle-grid" id="pickleGrid"></div>
+  </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+
+    <!-- ORDER SUMMARY BOX -->
+    <div class="order-box">
+      <div class="order-box-header">
+        <div class="order-box-title">🛒 &nbsp; Your Order</div>
+      </div>
+      <div class="order-items-list" id="orderItemsList">
+        <p class="empty-cart-msg">No items selected yet.<br>Pick your favourites! 🥭</p>
+      </div>
+      <div class="order-total">
+        <span class="total-label">Total Amount</span>
+        <span class="total-amount" id="totalAmount">₹0</span>
+      </div>
+    </div>
+
+    <!-- CUSTOMER FORM -->
+    <div class="form-section" id="orderForm">
+      <div class="form-header">
+        <div class="form-header-title">📋 &nbsp; Your Details</div>
+      </div>
+      <div class="form-body">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" class="form-input" id="custName" placeholder="Your name…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" class="form-input" id="custPhone" placeholder="e.g. 98765 43210">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Delivery Address *</label>
+          <textarea class="form-textarea" id="custAddress" placeholder="Full address with area, city…" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Notes</label>
+          <textarea class="form-textarea" id="custNotes" placeholder="Any special requests? E.g. less spicy, extra packaging…" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Review of Previous Order <span style="font-size:10px;font-style:italic;color:var(--mid-brown)">(Optional – help us improve!)</span></label>
+          <textarea class="form-textarea" id="custReview" placeholder="How was your last order? Any feedback or improvements…" rows="2"></textarea>
+        </div>
+        <button class="submit-btn" onclick="placeOrder()">✦ &nbsp; Confirm Order &nbsp; ✦</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <div class="footer-brand">Home Made Pickles</div>
+  <p class="footer-tagline">"It's not just a bottle of pickles — it's home packed in a jar."</p>
+  <div class="footer-contact">📞 8866163180 &nbsp;|&nbsp; 📞 9428496801</div>
+</div>
+
+<!-- ORDER SUMMARY OVERLAY -->
+<div class="overlay" id="summaryOverlay">
+  <div class="summary-box">
+    <div class="summary-header">
+      <div class="summary-check">✓</div>
+      <div class="summary-title">Order Confirmed!</div>
+      <div class="summary-subtitle">Here's your order summary</div>
+    </div>
+    <div class="summary-body" id="summaryBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ &nbsp; <span id="toastMsg"></span></div>
+
+<script>
+const PICKLES = [
+  { id:'gol',   en:'Gol Sambhari',       gu:'ગોળ સંભારી',         emoji:'🌶️', p250:120, p500:230, p1000:450 },
+  { id:'kesar', en:'Kesar Murabbo',      gu:'કેસર મુરબ્બો',        emoji:'🍋', p250:110, p500:210, p1000:400 },
+  { id:'chnd',  en:'Chhundo',            gu:'ચૂંદો',               emoji:'🥭', p250:110, p500:210, p1000:400 },
+  { id:'katki', en:'Katki',              gu:'કટકી',                emoji:'🥄', p250:120, p500:230, p1000:450 },
+  { id:'khaj',  en:'Khajur nu Athanu',   gu:'ખજૂરનું અથાણું',      emoji:'🌴', p250:130, p500:250, p1000:480 },
+  { id:'akhi',  en:'Akhi Methi Keri',    gu:'આખી મેથી કેરી',       emoji:'🥭', p250:135, p500:260, p1000:500 },
+  { id:'samk',  en:'Sambhari Keri',      gu:'સંભારી કેરી',         emoji:'🥭', p250:145, p500:280, p1000:550 },
+  { id:'sakg',  en:'Sambhari Keri Gunda',gu:'સંભારી કેરી ગુંડા',   emoji:'🫙', p250:145, p500:280, p1000:550 },
+  { id:'kach',  en:'Kacha Gunda',        gu:'કાચા ગુંડા',          emoji:'🟢', p250:145, p500:280, p1000:550 },
+  { id:'bafy',  en:'Bafya Gunda',        gu:'બાફ્યા ગુંડા',        emoji:'🟡', p250:145, p500:280, p1000:550 },
+  { id:'chan',  en:'Chana Methi Keri',   gu:'ચણા મેથી કેરી',       emoji:'🌿', p250:145, p500:275, p1000:530 },
+  { id:'bede',  en:'Bedekar',            gu:'બેડેકર',              emoji:'🏺', p250:135, p500:260, p1000:500 },
+  { id:'garm',  en:'Garmar',             gu:'ગરમર',               emoji:'🌵', p250:120, p500:220, p1000:420 },
+  { id:'kerd',  en:'Kerda',              gu:'કેરડા',               emoji:'🍃', p250:120, p500:220, p1000:420 },
+];
+
+// cart: { id_size: {pickle, size, qty, price} }
+const cart = {};
+
+function sizeKey(pickleId, size) { return `${pickleId}_${size}`; }
+function priceFor(p, size) { return size==='250g' ? p.p250 : size==='500g' ? p.p500 : p.p1000; }
+
+function renderPickles() {
+  const grid = document.getElementById('pickleGrid');
+  grid.innerHTML = PICKLES.map(p => `
+    <div class="pickle-card" id="card_${p.id}">
+      <div class="card-header">
+        <span class="pickle-emoji">${p.emoji}</span>
+        <div class="pickle-names">
+          <div class="pickle-name-en">${p.en}</div>
+          <div class="pickle-name-gu">${p.gu}</div>
+        </div>
+        <span class="added-badge">ADDED</span>
+      </div>
+      <div class="card-body">
+        ${['250g','500g','1kg'].map(sz => {
+          const price = sz==='250g' ? p.p250 : sz==='500g' ? p.p500 : p.p1000;
+          const realSz = sz==='1kg'?'1kg':sz;
+          return `
+          <div class="size-row">
+            <span class="size-label">${sz}</span>
+            <span class="size-price">₹${price}</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty('${p.id}','${realSz}',-1)">−</button>
+              <span class="qty-num" id="qty_${p.id}_${realSz}">0</span>
+              <button class="qty-btn" onclick="changeQty('${p.id}','${realSz}',1)">+</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeQty(pickleId, size, delta) {
+  const key = sizeKey(pickleId, size);
+  const pickle = PICKLES.find(p => p.id === pickleId);
+  const price = priceFor(pickle, size);
+
+  if (!cart[key]) cart[key] = { pickle, size, qty: 0, price };
+  cart[key].qty = Math.max(0, cart[key].qty + delta);
+
+  if (cart[key].qty === 0) delete cart[key];
+
+  document.getElementById(`qty_${pickleId}_${size}`).textContent = cart[key]?.qty || 0;
+
+  // update card border
+  const hasAny = Object.keys(cart).some(k => k.startsWith(pickleId+'_'));
+  document.getElementById(`card_${pickleId}`).classList.toggle('has-item', hasAny);
+
+  updateSidebar();
+  if (delta > 0) showToast(`${pickle.en} (${size}) added!`);
+}
+
+function updateSidebar() {
+  const items = Object.values(cart);
+  const listEl = document.getElementById('orderItemsList');
+  const totalEl = document.getElementById('totalAmount');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const reviewBtn = document.getElementById('reviewOrderBtn');
+
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const count = items.reduce((s, i) => s + i.qty, 0);
+
+  totalEl.textContent = `₹${total}`;
+  cartCountEl.textContent = count;
+  cartTotalEl.textContent = `₹${total}`;
+  reviewBtn.disabled = count === 0;
+
+  if (items.length === 0) {
+    listEl.innerHTML = '<p class="empty-cart-msg">No items selected yet.<br>Pick your favourites! 🥭</p>';
+    return;
+  }
+
+  listEl.innerHTML = items.map(i => `
+    <div class="order-line">
+      <div>
+        <div class="order-line-name">${i.pickle.en}</div>
+        <div class="order-line-size">${i.size} × ${i.qty}</div>
+      </div>
+      <div class="order-line-price">₹${i.price * i.qty}</div>
+    </div>
+  `).join('');
+}
+
+function scrollToForm() {
+  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function placeOrder() {
+  const name    = document.getElementById('custName').value.trim();
+  const phone   = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const notes   = document.getElementById('custNotes').value.trim();
+  const review  = document.getElementById('custReview').value.trim();
+
+  // Validate
+  let valid = true;
+  ['custName','custPhone','custAddress'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('error');
+    if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+  });
+  if (!valid) { showToast('Please fill required fields ⚠️', true); return; }
+
+  const items = Object.values(cart);
+  if (items.length === 0) { showToast('Your cart is empty! 🛒', true); return; }
+
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+  // Build summary HTML
+  const summaryRows = items.map(i => `
+    <tr>
+      <td>${i.pickle.en}</td>
+      <td>${i.size} × ${i.qty}</td>
+      <td>₹${i.price * i.qty}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('summaryBody').innerHTML = `
+    <div class="summary-section-label">Customer Details</div>
+    <div class="summary-customer-info">
+      <strong>Name:</strong> ${name}<br>
+      <strong>Phone:</strong> ${phone}<br>
+      <strong>Address:</strong> ${address}
+      ${notes ? `<br><strong>Notes:</strong> ${notes}` : ''}
+      ${review ? `<br><strong>Review:</strong> ${review}` : ''}
+    </div>
+
+    <div class="summary-section-label">Order Items</div>
+    <table class="summary-items-table">
+      <thead><tr><th>Pickle</th><th>Size × Qty</th><th>Amount</th></tr></thead>
+      <tbody>${summaryRows}</tbody>
+    </table>
+
+    <div class="summary-total-row">
+      <span class="summary-total-label">Total to Pay</span>
+      <span class="summary-total-val">₹${total}</span>
+    </div>
+
+    <div class="summary-actions">
+      <button class="wa-btn" onclick="sendWhatsApp('${encodeParams({name,phone,address,notes,review,items,total})}')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.926 1.399 5.591L0 24l6.545-1.376A11.926 11.926 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.001-1.368l-.36-.214-3.713.781.794-3.617-.235-.373A9.818 9.818 0 1112 21.818z"/></svg>
+        Send via WhatsApp
+      </button>
+      <button class="close-btn" onclick="closeOverlay()">✕ &nbsp; Close</button>
+    </div>
+  `;
+
+  document.getElementById('summaryOverlay').classList.add('show');
+}
+
+function encodeParams(data) {
+  return encodeURIComponent(JSON.stringify(data));
+}
+
+function sendWhatsApp(encoded) {
+  const data = JSON.parse(decodeURIComponent(encoded));
+  const { name, phone, address, notes, review, items, total } = data;
+
+  const lines = [
+    '🥭 *HOME MADE PICKLES – NEW ORDER* 🥭',
+    '━━━━━━━━━━━━━━━━━━━',
+    `👤 *Name:* ${name}`,
+    `📞 *Phone:* ${phone}`,
+    `📍 *Address:* ${address}`,
+    notes ? `📝 *Notes:* ${notes}` : '',
+    review ? `⭐ *Review:* ${review}` : '',
+    '━━━━━━━━━━━━━━━━━━━',
+    '🛒 *Order Details:*',
+    ...items.map(i => `  • ${i.pickle.en} (${i.size}) × ${i.qty}  =  ₹${i.price * i.qty}`),
+    '━━━━━━━━━━━━━━━━━━━',
+    `💰 *Total Amount: ₹${total}*`,
+    '━━━━━━━━━━━━━━━━━━━',
+    '_Thank you for ordering! We will confirm shortly._ 🙏',
+  ].filter(Boolean).join('\n');
+
+  const waNumber = '918866163180'; // primary number
+  const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(lines)}`;
+  window.open(url, '_blank');
+}
+
+function closeOverlay() {
+  document.getElementById('summaryOverlay').classList.remove('show');
+}
+
+// Close overlay on outside click
+document.getElementById('summaryOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeOverlay();
+});
+
+let toastTimer;
+function showToast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  m.textContent = msg;
+  t.style.background = isError ? '#A0391B' : '#4A7A3A';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Init
+renderPickles();
+updateSidebar();
+</script>
+</body>
+</html>
