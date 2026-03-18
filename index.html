@@ -10,14 +10,14 @@
 <body>
 
     <header class="header">
-        <div class="admin-tag">⚙ ADMIN PANEL</div>
+        <div class="admin-tag"> ADMIN PANEL</div>
         <h1>Home Made <span>Pickles</span></h1>
         <p class="header-sub">4 Nilgiri, Airport Road Branch</p>
     </header>
 
     <div class="container">
         <main>
-            <div class="sec-title">🥄 Select Items</div>
+            <div class="sec-title" style="color:white">🥄 Select Items</div>
             <div class="pickle-grid" id="pickleGrid"></div>
         </main>
 
@@ -26,6 +26,10 @@
                 <div class="box-head"><div class="box-head-title">🛒 Order Summary</div></div>
                 <div class="box-body" id="orderList">
                     <p class="empty-msg">No items added yet.</p>
+                </div>
+                <div id="courierDisplay" style="display:none; padding: 10px 15px; font-size: 14px; border-top: 1px dashed #E8890B; justify-content: space-between;">
+                    <span>Courier Charges:</span>
+                    <strong id="courierAmtText" style="color: #C0432A;">₹0</strong>
                 </div>
                 <div class="total-row">
                     <span class="total-lbl">Total Amount</span>
@@ -37,7 +41,7 @@
                 <div class="form-head"><div class="form-head-title">👤 Customer Details</div></div>
                 <div class="box-body">
                     <input type="text" class="form-input" id="custName" placeholder="Customer Name *">
-                    <input type="tel" class="form-input" id="custPhone" placeholder="WhatsApp Number (10 digits) *">
+                    <input type="tel" class="form-input" id="custPhone" placeholder="WhatsApp Number *">
                     
                     <label class="form-label">Order Type:</label>
                     <select class="form-input" id="orderType" onchange="toggleAddressField()">
@@ -47,6 +51,8 @@
 
                     <div id="addressSection">
                         <textarea class="form-ta" id="custAddress" placeholder="Customer Delivery Address *" rows="2"></textarea>
+                        <label class="form-label">Courier Charges:</label>
+                        <input type="number" class="form-input" id="courierCharges" value="0" oninput="updateSummary()">
                     </div>
 
                     <button class="send-btn" id="sendBtn" onclick="sendToWhatsApp()" disabled>
