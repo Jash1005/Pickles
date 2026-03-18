@@ -124,4 +124,15 @@ body {
     cursor: pointer;
 }
 
+/* Add this to your existing style.css */
+#courierDisplay {
+    margin-bottom: 5px;
+    border-bottom: 1px dashed var(--saffron);
+    padding-bottom: 5px;
+}
+
+#courierAmtText {
+    color: var(--terracotta);
+}
+
 @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
