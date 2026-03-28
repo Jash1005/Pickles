@@ -1,25 +1,24 @@
 const MY_SHOP_ADDRESS = "4 Nilgiri, Near Muni Dairy, Opp. Rushabh App., Airport Road-364001"; 
-const ENQUIRY_PHONE = "9409072662";
+const ENQUIRY_PHONE = "8866163180 / 9428496801";
 const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyRqDZRjX8IyxYEUpIqv2nSnR4m-fGXI-70ekle29UheIQU_mqQ0xRVFXOHdr-76t4q/exec"; // REPLACE THIS!
 
 const PICKLES = [
-  { id: 'amk', en: 'Akhi Methi Keri', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'gol', en: 'Gol Sambhari', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'skg', en: 'Sambhari Keri Gunda', p250: 130, p500: 250, p1kg: 480 },
-  { id: 'cmk', en: 'Chana Methi Keri', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'gar', en: 'Garmar', p250: 120, p500: 220, p1kg: 420 },
-  { id: 'bed', en: 'Bedekar', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'kat', en: 'Katki', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'bfg', en: 'Bafya Gunda', p250: 130, p500: 250, p1kg: 480 },
-  { id: 'chh', en: 'Chundo', p250: 110, p500: 210, p1kg: 400 },
-  { id: 'ker', en: 'Kerda', p250: 120, p500: 220, p1kg: 420 },
-  { id: 'khj', en: 'Khajur nu Athanu', p250: 130, p500: 250, p1kg: 480 },
-  { id: 'kes', en: 'Kesar Murabbo', p250: 110, p500: 210, p1kg: 400 },
-  { id: 'kgu', en: 'Kacha Gunda', p250: 100, p500: 180, p1kg: 350 },
-  { id: 'bgu', en: 'Bol Gunda', p250: 110, p500: 210, p1kg: 400 },
-  { id: 'ske', en: 'Sambhari Keri', p250: 120, p500: 230, p1kg: 450 },
-  { id: 'dal', en: 'Dala', p250: 120, p500: 230, p1kg: 450 }
-];
+  { id: 'amk', en: 'Akhi Methi Keri', p250: 150, p500: 280, p1kg: 550 },
+  { id: 'cmk', en: 'Chana Methi Keri', p250: 160, p500: 300, p1kg: 580 },
+  { id: 'ske', en: 'Sambhari Keri', p250: 170, p500: 320, p1kg: 600 },
+  { id: 'skg', en: 'Sambhara Keri Gunda', p250: 170, p500: 320, p1kg: 600 },
+  { id: 'kgu', en: 'Kacha Gunda', p250: 170, p500: 320, p1kg: 600 },
+  { id: 'bfg', en: 'Bafiya Gunda', p250: 170, p500: 320, p1kg: 600 },
+  { id: 'bed', en: 'Bedekar', p250: 150, p500: 280, p1kg: 550 },
+  { id: 'chh', en: 'Chhundo', p250: 120, p500: 230, p1kg: 450 },
+  { id: 'kat', en: 'Kataki', p250: 140, p500: 260, p1kg: 500 },
+  { id: 'kes', en: 'Kesar Murabbo', p250: 120, p500: 230, p1kg: 450 },
+  { id: 'gol', en: 'Gol Sambhari', p250: 140, p500: 260, p1kg: 500 },
+  { id: 'khj', en: 'Khajur nu Athanu', p250: 140, p500: 270, p1kg: 520 },
+  { id: 'gar', en: 'Garmar', p250: 130, p500: 240, p1kg: 450 },
+  { id: 'bgu', en: 'Bol Gunda', p250: 130, p500: 240, p1kg: 450 },
+  { id: 'ker', en: 'Kerda', p250: 130, p500: 240, p1kg: 450 }
+];  
 
 let cart = {};
 
