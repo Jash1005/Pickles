@@ -1,6 +1,6 @@
 const MY_SHOP_ADDRESS = "4 Nilgiri, Near Muni Dairy, Opp. Rushabh App., Airport Road-364001"; 
-const ENQUIRY_PHONE = "8866163180 / 9428496801";
-const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyRqDZRjX8IyxYEUpIqv2nSnR4m-fGXI-70ekle29UheIQU_mqQ0xRVFXOHdr-76t4q/exec"; // REPLACE THIS!
+const ENQUIRY_PHONE = "9409072662";
+const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyRqDZRjX8IyxYEUpIqv2nSnR4m-fGXI-70ekle29UheIQU_mqQ0xRVFXOHdr-76t4q/exec"; 
 
 const PICKLES = [
   { id: 'amk', en: 'Akhi Methi Keri', p250: 150, p500: 280, p1kg: 550 },
@@ -33,6 +33,13 @@ function renderGrid() {
             <div class="size-row"><span>250g - ₹${p.p250}</span> ${qtyCtrl(p.id, '250g')}</div>
             <div class="size-row"><span>500g - ₹${p.p500}</span> ${qtyCtrl(p.id, '500g')}</div>
             <div class="size-row"><span>1kg - ₹${p.p1kg}</span> ${qtyCtrl(p.id, '1kg')}</div>
+            <div class="size-row custom-row">
+                <span>Custom Weight (kg)</span>
+                <input type="number" step="0.1" min="0" placeholder="e.g. 2.5" 
+                       class="custom-qty-input" 
+                       id="cust_input_${p.id}" 
+                       oninput="updateCustomQty('${p.id}')">
+            </div>
         </div>
     `).join('');
 }
@@ -49,10 +56,34 @@ function updateQty(id, size, delta) {
     const key = `${id}_${size}`;
     const p = PICKLES.find(x => x.id === id);
     const price = size === '250g' ? p.p250 : size === '500g' ? p.p500 : p.p1kg;
-    if (!cart[key]) cart[key] = { name: p.en, size, qty: 0, price };
+    
+    if (!cart[key]) cart[key] = { name: p.en, size, qty: 0, price, isCustom: false };
     cart[key].qty = Math.max(0, cart[key].qty + delta);
+    
     if (cart[key].qty === 0) delete cart[key];
-    document.getElementById(`q_${id}_${size}`).innerText = cart[key]?.qty || 0;
+    
+    const display = document.getElementById(`q_${id}_${size}`);
+    if (display) display.innerText = cart[key]?.qty || 0;
+    updateSummary();
+}
+
+function updateCustomQty(id) {
+    const p = PICKLES.find(x => x.id === id);
+    const val = parseFloat(document.getElementById(`cust_input_${id}`).value) || 0;
+    const key = `${id}_custom`;
+
+    if (val > 0) {
+        // Price calculated based on 1kg price
+        cart[key] = { 
+            name: p.en, 
+            size: val + 'kg', 
+            qty: 1, 
+            price: Math.round(val * p.p1kg),
+            isCustom: true 
+        };
+    } else {
+        delete cart[key];
+    }
     updateSummary();
 }
 
@@ -78,7 +109,7 @@ function updateSummary() {
     const list = document.getElementById('orderList');
     list.innerHTML = items.length ? items.map(i => `
         <div style="display:flex; justify-content:space-between; margin-bottom:5px; border-bottom:1px solid #eee;">
-            <span>${i.name} (${i.size}) x ${i.qty}</span>
+            <span>${i.name} (${i.size}) ${i.isCustom ? '' : 'x ' + i.qty}</span>
             <strong>₹${i.price * i.qty}</strong>
         </div>
     `).join('') : '<p class="empty-msg">No items added yet.</p>';
@@ -103,10 +134,8 @@ function sendToWhatsApp() {
         return alert("Please fill all required fields!");
     }
 
-    // Prepare items for Sheet
-    const itemString = Object.values(cart).map(i => `${i.name} (${i.size}) x ${i.qty}`).join(", ");
+    const itemString = Object.values(cart).map(i => `${i.name} (${i.size}) ${i.isCustom ? '' : 'x' + i.qty}`).join(", ");
 
-    // Save to Google Sheet (runs in background)
     fetch(SHEET_WEBAPP_URL, {
         method: "POST",
         mode: "no-cors",
@@ -123,7 +152,6 @@ function sendToWhatsApp() {
         })
     });
 
-    // WhatsApp Message
     let msg = "🥭 *HOME MADE PICKLES - ORDER CONFIRMED* 🥭\n\n";
     msg += "📅 *Date:* " + date + "\n";
     msg += "👤 *Customer:* " + name + "\n";
@@ -138,7 +166,7 @@ function sendToWhatsApp() {
 
     msg += "\n*Order Details:* \n";
     Object.values(cart).forEach(i => { 
-        msg += "• " + i.name + " (" + i.size + ") x " + i.qty + " = ₹" + (i.price * i.qty) + "\n"; 
+        msg += "• " + i.name + " (" + i.size + ")" + (i.isCustom ? "" : " x " + i.qty) + " = ₹" + (i.price * i.qty) + "\n"; 
     });
     
     msg += "\n*Total Amount: " + total + "*";
@@ -153,7 +181,3 @@ function resetAll() {
 }
 
 renderGrid();
-
-function testSheet() {
-  SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().appendRow(["Test Date", "Test Name"]);
-}
