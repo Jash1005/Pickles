@@ -134,4 +134,31 @@ input[type="date"] {
     cursor: pointer;
 }
 
+
+
+.custom-qty-input {
+    width: 60px;
+    padding: 4px;
+    border: 1px solid var(--saffron);
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Crimson Pro', serif;
+    font-weight: bold;
+    outline: none;
+}
+
+.custom-row {
+    background: rgba(232, 137, 11, 0.05); /* Light saffron tint to distinguish it */
+    border-top: 1px dashed rgba(0,0,0,0.1);
+}
+
+/* Removes arrows from number input for a cleaner look */
+.custom-qty-input::-webkit-outer-spin-button,
+.custom-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
 @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+
